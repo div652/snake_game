@@ -6,10 +6,10 @@ const finalScoreEl = document.getElementById('finalScore');
 const restartBtn = document.getElementById('restartBtn');
 
 // Grid and Cell Settings
-const COLS = 100; // 100 columns
-const ROWS = 50;  // 50 rows
-const CELL_SIZE = 10; // each cell is 10x10 pixels
-// canvas is 1000x500
+const COLS = 60; // 60 columns
+const ROWS = 30;  // 30 rows
+const CELL_SIZE = 16; // each cell is 16x16 pixels
+// canvas is 960x480
 
 // Direction mappings (dx, dy)
 const DIRS = {
