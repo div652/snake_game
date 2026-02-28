@@ -30,6 +30,30 @@ let isGameOver = false;
 // Game speed in ms per frame
 const GAME_SPEED = 100;
 
+// Image Assets
+const headImg = new Image();
+const bodyImg = new Image();
+const fruitImg = new Image();
+
+let imagesLoaded = 0;
+const totalImages = 3;
+
+function checkImagesLoaded() {
+    imagesLoaded++;
+    if (imagesLoaded === totalImages) {
+        init(); // Only start the game when sprites are ready
+    }
+}
+
+headImg.onload = checkImagesLoaded;
+bodyImg.onload = checkImagesLoaded;
+fruitImg.onload = checkImagesLoaded;
+
+headImg.src = 'assets/snake_green_head.png';
+bodyImg.src = 'assets/snake_green_blob.png';
+fruitImg.src = 'assets/apple_red.png';
+
+
 function init() {
     // Initial size 1*3 (which means length 3). Let's put it in the middle.
     const startX = Math.floor(COLS / 2);
@@ -112,52 +136,55 @@ function draw() {
     ctx.fillStyle = '#0f3460';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Draw Fruit
-    ctx.fillStyle = '#e94560'; // Vibrant red/pink
-    ctx.beginPath();
-    ctx.arc(
-        fruit.x * CELL_SIZE + CELL_SIZE / 2,
-        fruit.y * CELL_SIZE + CELL_SIZE / 2,
-        CELL_SIZE / 2 - 1,
-        0,
-        Math.PI * 2
+    // Draw Fruit Image
+    ctx.drawImage(
+        fruitImg,
+        fruit.x * CELL_SIZE,
+        fruit.y * CELL_SIZE,
+        CELL_SIZE,
+        CELL_SIZE
     );
-    ctx.fill();
 
     // Draw Snake
     for (let i = 0; i < snake.length; i++) {
         const segment = snake[i];
 
-        // Head is a different color
         if (i === 0) {
-            ctx.fillStyle = '#4ade80'; // Bright green for head
+            // Draw Head with Rotation
+            ctx.save();
+            // Move origin to center of head's cell
+            ctx.translate(
+                segment.x * CELL_SIZE + CELL_SIZE / 2,
+                segment.y * CELL_SIZE + CELL_SIZE / 2
+            );
+
+            // Calculate rotation angle (Head sprite naturally faces UP)
+            let angle = 0;
+            if (dir.x === 1) angle = 90 * Math.PI / 180;        // RIGHT
+            else if (dir.x === -1) angle = 270 * Math.PI / 180; // LEFT
+            else if (dir.y === 1) angle = 180 * Math.PI / 180;  // DOWN
+
+            ctx.rotate(angle);
+
+            // Draw image offset by -half width so it centers correctly
+            ctx.drawImage(
+                headImg,
+                -CELL_SIZE / 2,
+                -CELL_SIZE / 2,
+                CELL_SIZE,
+                CELL_SIZE
+            );
+
+            ctx.restore();
         } else {
-            ctx.fillStyle = '#22c55e'; // Green for body
-        }
-
-        // Add slightly smaller rect for gap between segments
-        ctx.fillRect(
-            segment.x * CELL_SIZE + 1,
-            segment.y * CELL_SIZE + 1,
-            CELL_SIZE - 2,
-            CELL_SIZE - 2
-        );
-
-        // Connect segments for a smoother look
-        if (i > 0) {
-            const prev = snake[i - 1];
-            // Only connect if they are adjacent (ignoring wrap around connection for simplicity)
-            if (Math.abs(segment.x - prev.x) <= 1 && Math.abs(segment.y - prev.y) <= 1) {
-                const minX = Math.min(segment.x, prev.x);
-                const minY = Math.min(segment.y, prev.y);
-                const isHorizontal = segment.y === prev.y;
-
-                if (isHorizontal) {
-                    ctx.fillRect(minX * CELL_SIZE + CELL_SIZE - 1, segment.y * CELL_SIZE + 1, 2, CELL_SIZE - 2);
-                } else {
-                    ctx.fillRect(segment.x * CELL_SIZE + 1, minY * CELL_SIZE + CELL_SIZE - 1, CELL_SIZE - 2, 2);
-                }
-            }
+            // Draw Body Segment Image
+            ctx.drawImage(
+                bodyImg,
+                segment.x * CELL_SIZE,
+                segment.y * CELL_SIZE,
+                CELL_SIZE,
+                CELL_SIZE
+            );
         }
     }
 }
