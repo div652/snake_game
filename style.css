@@ -1,0 +1,95 @@
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background-color: #1a1a2e;
+    color: #e94560;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.game-container {
+    text-align: center;
+    position: relative;
+    background: #16213e;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+h1 {
+    margin: 0 0 10px 0;
+    font-size: 2.5rem;
+    color: #0f3460;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+h1 { color: #e94560; }
+
+.score-board {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    font-weight: bold;
+    color: #fff;
+}
+
+canvas {
+    background-color: #0f3460;
+    border-radius: 8px;
+    border: 3px solid #e94560;
+    box-shadow: 0 4px 15px rgba(233, 69, 96, 0.3);
+}
+
+.instructions {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: #a8a8b3;
+}
+
+.game-over {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(22, 33, 62, 0.95);
+    padding: 40px;
+    border-radius: 10px;
+    border: 2px solid #e94560;
+    text-align: center;
+    z-index: 10;
+}
+
+.game-over h2 {
+    color: #e94560;
+    font-size: 3rem;
+    margin-top: 0;
+}
+
+.game-over p {
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+#restartBtn {
+    background-color: #e94560;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s, transform 0.1s;
+    margin-top: 15px;
+}
+
+#restartBtn:hover {
+    background-color: #d13d55;
+    transform: scale(1.05);
+}
+
+#restartBtn:active {
+    transform: scale(0.95);
+}
